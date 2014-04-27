@@ -1,0 +1,9 @@
+body {
+  font: 16px 'Helvetica Neue',Helvetica,Arial,'ヒラギノ角ゴ ProN W3','Hiragino Kaku Gothic ProN','メイリオ',Meiryo,sans-serif;
+}
+h1 {
+  text-decoration: underline;
+}
+#container {
+  width: 980px;
+  margin: 0 auto; }
