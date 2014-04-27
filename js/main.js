@@ -1,7 +1,7 @@
 /*
  * グローバル変数の定義
  */
-var mouseX, mouseY, ansX, ansY;
+var ansX, ansY;
 
 // フィールドの大きさを定義
 var areaLength = 640, row = 4, col = 4;
