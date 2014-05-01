@@ -2,63 +2,48 @@
  * グローバル変数の定義
  */
 var ansX, ansY;
-var areaLength = 640, row = 4, col = 4; // フィールドの大きさを定義
+var row = 4, col = 4; // フィールドの大きさを定義
 
-// bodyの最後まで読み込み終わったらゲームスタート
+// bodyの最後まで読み込み終わったら呼ばれる関数
 window.onload = function() {
-  var canvas = document.getElementById('field');
-  if(!canvas.getContext){ return false; }
-  // htmlのcanvasのサイズを書き換え
-  canvas.width = canvas.height = areaLength;
-
-  // canvasに描画する準備
-  var ctx = canvas.getContext('2d');
-
-  // クリックイベントを追加
-  // @todo: IEでも動くように修正する
-  canvas.addEventListener('click', function(event){
-    // クリックされたマスの座標を取得
-    var rect = event.target.getBoundingClientRect();
-    var x = getPointX(event.clientX - rect.left),
-      y = getPointY(event.clientY - rect.top);
-    if (x < 0 || y < 0) {
-      console.log('座標を取得できませんでした');
-      return false; //この先の処理を行わない
-    }
-
-    // もしクリックした場所に宝があればクリア
-    if (hitTreasure(x, y) === true) {
-      completeGame(ctx);
-    }
-    else {
-      showHint(x, y);
-    }
-  });
-
-  // 初期化
-  init(ctx);
+  // マップ（テーブル）を初期化
+  var field = document.getElementById('field');
+  init(field);
 };
 
 /*
  * ゲームを初期化する関数
  */
-function init(ctx) {
+function init(table) {
   // フィールドを描画
-  ctx.beginPath();
-  for (var i=0; i<=row; i++) {
-    ctx.moveTo(i*areaLength/row, 0);
-    ctx.lineTo(i*areaLength/row, 640);
+  for (var i=0; i<col; i++) {
+    var tr = document.createElement('tr');
+    for (var j=0; j<row; j++) {
+      var td = document.createElement('td');
+      // この要素がクリックされた時に呼ばれる関数
+      td.setAttribute('onclick', 'judge('+j+','+i+', this);');
+      tr.appendChild(td);
+    }
+    table.appendChild(tr);
   }
-  for (var i=0; i<=col; i++) {
-    ctx.moveTo(0, i*areaLength/col);
-    ctx.lineTo(areaLength, i*areaLength/col);
-  }
-  ctx.closePath();
-  ctx.stroke();
 
   // 宝の位置を決める
   ansX = Math.floor((Math.random() * row)),
   ansY = Math.floor((Math.random() * col));
+
+  console.log(ansX, ansY);
+}
+
+/*
+ * クリックされた時に呼ばれる関数
+ */
+function judge(x, y, self) {
+  if (hitTreasure(x, y) === true) {
+    completeGame(self);
+  }
+  else {
+    showHint(x, y);
+  }
 }
 
 /*
@@ -74,14 +59,12 @@ function hitTreasure(x, y) {
 /*
  * ゲームをクリアした時に呼ばれる関数
  */
-function completeGame(ctx) {
+function completeGame(self) {
   // 宝があった場所を赤く塗りつぶす
-  var sqWidth = areaLength/row,
-    sqHeight = areaLength/col;
-  ctx.fillStyle = "rgb(200, 0, 0)";
-  ctx.fillRect(ansX * sqWidth, ansY * sqHeight, sqWidth, sqHeight);
-
+  self.setAttribute('style', 'background-color:rgb(255,0,0);');
   alert('ゲームクリア！');
+
+  // クリアしたらどうしよう
 }
 
 /*
@@ -90,31 +73,4 @@ function completeGame(ctx) {
 function showHint(x, y) {
   var distance = Math.abs(ansX - x) + Math.abs(ansY - y);
   alert('あと' + distance + 'マス離れてるよ！');
-}
-
-/*
- * マウスの座標から、クリックされたマスのX座標を取得する関数
- */
-function getPointX(mouseX) {
-  var sqWidth = areaLength/row;
-  for (var i=0; i<row; i++) {
-    if (i*sqWidth < mouseX && mouseX < (i+1)*sqWidth) {
-      return i;
-    }
-  }
-  return -1;
-}
-
-/*
- * マウスの座標から、クリックされたマスのY座標を取得する関数
- */
-function getPointY(mouseY) {
-  var sqHeight = areaLength/col;
-  for (var i=0; i<col; i++) {
-    if (i*sqHeight < mouseY && mouseY < (i+1)*sqHeight) {
-      return i;
-    }
-  }
-
-  return -1;
 }
