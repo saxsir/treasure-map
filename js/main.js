@@ -2,9 +2,7 @@
  * グローバル変数の定義
  */
 var ansX, ansY;
-
-// フィールドの大きさを定義
-var areaLength = 640, row = 4, col = 4;
+var areaLength = 640, row = 4, col = 4; // フィールドの大きさを定義
 
 // bodyの最後まで読み込み終わったらゲームスタート
 window.onload = function() {
