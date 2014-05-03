@@ -16,12 +16,12 @@ window.onload = function() {
  */
 function init(table) {
   // フィールドを描画
-  for (var i=0; i<col; i++) {
+  for (var y=0; y<col; y++) {
     var tr = document.createElement('tr');
-    for (var j=0; j<row; j++) {
+    for (var x=0; x<row; x++) {
       var td = document.createElement('td');
       // この要素がクリックされた時に呼ばれる関数
-      td.setAttribute('onclick', 'judge('+j+','+i+', this);');
+      td.setAttribute('onclick', 'judge('+x+','+y+', this);');
       tr.appendChild(td);
     }
     table.appendChild(tr);
