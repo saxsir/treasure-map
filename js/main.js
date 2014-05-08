@@ -20,8 +20,10 @@ function init(table) {
     var tr = document.createElement('tr');
     for (var x=0; x<row; x++) {
       var td = document.createElement('td');
-      // この要素がクリックされた時に呼ばれる関数
-      td.setAttribute('onclick', 'judge('+x+','+y+', this);');
+      // あとで参照できるように個別にidをつけておく
+      var id = 'x'+x+'y'+y;
+      td.setAttribute('id', id);
+      td.setAttribute('onclick', 'judge('+x+','+y+',"' + id + '");');
       tr.appendChild(td);
     }
     table.appendChild(tr);
@@ -37,9 +39,9 @@ function init(table) {
 /*
  * クリックされた時に呼ばれる関数
  */
-function judge(x, y, self) {
+function judge(x, y, id) {
   if (hitTreasure(x, y) === true) {
-    completeGame(self);
+    completeGame(id);
   }
   else {
     showHint(x, y);
@@ -59,9 +61,9 @@ function hitTreasure(x, y) {
 /*
  * ゲームをクリアした時に呼ばれる関数
  */
-function completeGame(self) {
+function completeGame(id) {
   // 宝があった場所を赤く塗りつぶす
-  self.setAttribute('style', 'background-color:rgb(255,0,0);');
+  document.getElementById(id).setAttribute('style', 'background-color:rgb(255,0,0);');
   alert('ゲームクリア！');
 
   // クリアしたらどうしよう
