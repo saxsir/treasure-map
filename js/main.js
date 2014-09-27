@@ -4,17 +4,19 @@
 var ansX, ansY;
 var row = 4, col = 4; // フィールドの大きさを定義
 
-// bodyの最後まで読み込み終わったら呼ばれる関数
+// bodyの最後まで読み込み終わったら呼ばれる
 window.onload = function() {
-  // マップ（テーブル）を初期化
-  var field = document.getElementById('field');
-  init(field);
+  // フィールド（テーブル）を初期化
+  var table = document.getElementById('field');
+  initField(table);
+
+  // 宝を埋める
+  var x = Math.floor((Math.random() * row)),
+      y = Math.floor((Math.random() * col));
+  buryTreasure(x, y);
 };
 
-/*
- * ゲームを初期化する関数
- */
-function init(table) {
+function initField(table) {
   // フィールドを描画
   for (var y=0; y<col; y++) {
     var tr = document.createElement('tr');
@@ -28,8 +30,13 @@ function init(table) {
     }
     table.appendChild(tr);
   }
+}
 
-  // 宝の位置を決める
+/**
+ * 宝の位置をセットする関数
+ *
+ */
+function buryTreasure(x, y) {
   ansX = Math.floor((Math.random() * row)),
   ansY = Math.floor((Math.random() * col));
 
@@ -66,7 +73,7 @@ function completeGame(id) {
   document.getElementById(id).setAttribute('style', 'background-color:rgb(255,0,0);');
   alert('ゲームクリア！');
 
-  // クリアしたらどうしよう
+  //TODO: クリアしたらどうしよう
 }
 
 /*
