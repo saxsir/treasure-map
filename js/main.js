@@ -14,6 +14,10 @@ window.onload = function() {
   var x = Math.floor((Math.random() * row)),
       y = Math.floor((Math.random() * col));
   buryTreasure(x, y);
+
+  // debug
+  // 宝の位置を表示する
+  console.log(ansX, ansY);
 };
 
 /**
